@@ -48,7 +48,11 @@ export const UserHeader = () => {
           </Flex>
         </Box>
         <Box>
-          <Avatar name="Ricardo Coronado" src="/ricardo.jpg" size={"xl"} />
+          <Avatar
+            name="Ricardo Coronado"
+            src="/ricardo.jpg"
+            size={{ base: "md", md: "xl" }}
+          />
         </Box>
       </Flex>
       <Text>
@@ -93,7 +97,16 @@ export const UserHeader = () => {
         >
           <Text fontWeight={"bold"}>Threads</Text>
         </Flex>
-        <Flex flex={1}></Flex>
+        <Flex
+          flex={1}
+          borderBottom={"1.5px solid gray"}
+          justifyContent={"center"}
+          color={"gray.light"}
+          pb={3}
+          cursor={"pointer"}
+        >
+          <Text fontWeight={"bold"}>Replies</Text>
+        </Flex>
       </Flex>
     </VStack>
   );
