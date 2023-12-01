@@ -94,18 +94,45 @@ const replyPost = async (req, res) => {
     const postId = req.params.id;
     const { text } = req.body;
     const userId = req.user._id;
-    const userProfilePic = req.user.profilePic;
+    const userProfilePic = req.user.avatar;
+    const username = req.user.username;
 
     const post = await Post.findById(postId);
+    if (!text) {
+      res.status(400).json({ message: "text is required" });
+    }
 
     if (!post) {
       res.status(404).json({ message: "Post not found" });
     }
 
-    const reply = { text, username, userProfilePic };
+    const reply = { userId, text, username, userProfilePic };
 
     await post.replies.push(reply);
     await post.save();
-  } catch (error) {}
+    res.status(200).json({ message: "Reply send succesfully", post });
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
 };
-export { createPost, getPost, deletePost, likePost };
+
+const getFeed = async (req, res) => {
+  try {
+    const userId = req.user._id;
+
+    const user = await User.findById(userId);
+    if (!user) {
+      res.status(400).json({ message: "Unauthorized" });
+    }
+
+    const following = user.following;
+
+    const feedPosts = Post.find({ postedBy: { $in: following } }).sort({
+      createdAt: -1,
+    });
+    res.status(200).json({ feedPosts });
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
+export { createPost, getPost, deletePost, likePost, replyPost, getFeed };
