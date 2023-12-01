@@ -1,4 +1,3 @@
-import e from "express";
 import Post from "../models/postModel.js";
 import User from "../models/userModel.js";
 const createPost = async (req, res) => {
@@ -67,4 +66,47 @@ const deletePost = async (req, res) => {
     res.status(500).json({ message: error.message });
   }
 };
-export { createPost, getPost, deletePost };
+
+const likePost = async (req, res) => {
+  try {
+    const postId = req.params.id;
+    console.log(postId);
+    const post = await Post.findById(postId);
+    if (!post) {
+      return res.status(404).json({ message: "Post not Found" });
+    }
+    const isLiked = post.likes.includes(req.user._id);
+    if (isLiked) {
+      //Unlike
+      await Post.updateOne({ _id: postId }, { $pull: { likes: req.user._id } });
+      res.status(200).json({ message: "post unliked succesfully" });
+    } else {
+      //Like
+      await Post.updateOne({ _id: postId }, { $push: { likes: req.user._id } });
+      res.status(200).json({ message: "post liked succesfully" });
+    }
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
+
+const replyPost = async (req, res) => {
+  try {
+    const postId = req.params.id;
+    const { text } = req.body;
+    const userId = req.user._id;
+    const userProfilePic = req.user.profilePic;
+
+    const post = await Post.findById(postId);
+
+    if (!post) {
+      res.status(404).json({ message: "Post not found" });
+    }
+
+    const reply = { text, username, userProfilePic };
+
+    await post.replies.push(reply);
+    await post.save();
+  } catch (error) {}
+};
+export { createPost, getPost, deletePost, likePost };
