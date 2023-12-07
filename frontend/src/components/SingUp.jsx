@@ -29,15 +29,19 @@ export default function SignupCard() {
   });
   const handdleSingUp = async () => {
     try {
-      console.log(inputs);
-      // const res = await fetch("/api/users/signup", {
-      //   method: "POST",
-      //   headers: {
-      //     "Content/type": "application/json",
-      //     body: JSON.stringify({ inputs }),
-      //   },
-      // });
-    } catch (error) {}
+      const res = await fetch("/api/users/signup", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(inputs),
+      });
+      console.log(res);
+      const data = await res.json();
+      console.log(data);
+    } catch (error) {
+      console.log(error);
+    }
   };
   return (
     <Flex align={"center"} justify={"center"}>
