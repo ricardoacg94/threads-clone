@@ -17,7 +17,7 @@ const protectRoute = async (req, res, next) => {
     res.status(500).json({
       message: error,
     });
-    console.log("error followUnfollowUser", error);
+    console.log("Authentication Error", error);
   }
 };
 
