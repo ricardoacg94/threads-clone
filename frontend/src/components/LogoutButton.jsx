@@ -31,7 +31,7 @@ export const LogoutButton = () => {
     <Button
       position={"fixed"}
       top={"30px"}
-      right={"40px"}
+      right={"20px"}
       size={"sm"}
       onClick={handdleLogout}
     >

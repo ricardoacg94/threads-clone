@@ -33,6 +33,8 @@ const singupUser = async (req, res) => {
         name: newUser.name,
         email: newUser.email,
         username: newUser.username,
+        avatar: newUser.avatar,
+        bio: newUser.bio,
       });
     } else {
       res.status(400).json({ error: "Invalid user data" });
@@ -60,6 +62,8 @@ const userLogin = async (req, res) => {
       name: user.name,
       email: user.email,
       username: user.username,
+      avatar: user.avatar,
+      bio: user.bio,
     });
   } catch (error) {
     res.status(500).json({
