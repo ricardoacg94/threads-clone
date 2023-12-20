@@ -18,7 +18,7 @@ import usePreviewImage from "../hooks/usePreviewImage";
 export const UpdateUser = () => {
   const [user, setUser] = useRecoilState(userAtom);
   const fileRef = useRef(null);
-  const { handdleImageChange } = usePreviewImage();
+  const { handdleImageChange, imgUrl } = usePreviewImage();
   const handdleSubmit = () => {};
   return (
     <form>
@@ -38,7 +38,11 @@ export const UpdateUser = () => {
           <FormControl id="userName">
             <Stack direction={["column", "row"]} spacing={6}>
               <Center>
-                <Avatar size="xl" boxShadow={"md"} src={user.avatar} />
+                <Avatar
+                  size="xl"
+                  boxShadow={"md"}
+                  src={imgUrl || user.avatar}
+                />
               </Center>
               <Center w="full">
                 <Button w="full" onClick={() => fileRef.current.click()}>
@@ -46,8 +50,8 @@ export const UpdateUser = () => {
                 </Button>
                 <Input
                   type="file"
-                  hidden
                   ref={fileRef}
+                  hidden
                   onChange={handdleImageChange}
                 />
               </Center>
